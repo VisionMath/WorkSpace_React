@@ -46,12 +46,12 @@ class Search extends React.Component {
   };
 
 
-  handleChange = (e: any) => {
+  handleChange = (e) => {
     this.setState({ value: e.target.value });
   };
 
 
-  handleSubmit = (e: any) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.getSearchMovie();
   };

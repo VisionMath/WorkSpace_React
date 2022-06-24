@@ -12,7 +12,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-app.use('/search', (req, res) => {
+app.use('/', (req, res) => {
   console.log('server-search');
   const word = req.query.query;
   console.log(word);
@@ -26,11 +26,11 @@ app.use('/search', (req, res) => {
       'X-Naver-Client-Secret': SECRET_KEY,
       'Access-Control-Allow-Origin': '*'
     }
-  }).then(function(response) {
+  }).then(function (response) {
     console.log(response.data.items);
     const items = response.data.items;
-    res.send({items:items});
-  }).catch(function(error) {
+    res.send({ items: items });
+  }).catch(function (error) {
     console.log(error);
   });
 
