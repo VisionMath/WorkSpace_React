@@ -44,18 +44,10 @@ class Search extends React.Component {
     this.getSearchMovie();
   }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4bfe92bef7ddca7283e46602822fbc21f4040ea7
   handleChange = (e) => {
     this.setState({ value: e.target.value });
   };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4bfe92bef7ddca7283e46602822fbc21f4040ea7
   handleSubmit = (e) => {
     e.preventDefault();
     this.getSearchMovie();
