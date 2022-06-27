@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Search from "./routes/Search";
 import Login from "./routes/Login";
 import BoxOffice from "./routes/BoxOffice";
-import Random from "./routes/Random";
 
 function App() {
   return (
