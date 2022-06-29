@@ -62,21 +62,17 @@ class BoxOffice2 extends React.Component {
   };
 
   componentDidMount() {
-    const arr = [];
-    const { isLoading, movies, top10 } = this.state;
-
     this.getBoxOffice();
-    console.log(movies);
-    for (var i = 0; i < movies.length; i++) {
-      console.log(this.getSearchMovie(movies[i].movieNm));
-      arr.push(this.getSearchMovie(movies[i].movieNm));
-    }
-    this.setState({ top10: arr });
-    console.log(this.state.top10);
   }
 
   render() {
     const { isLoading, movies, top10 } = this.state;
+
+    console.log(movies);
+    for (var i = 0; i < movies.length; i++) {
+      this.state.top10.push(this.getSearchMovie(movies[i].movieNm));
+    }
+    console.log(this.state.top10);
 
     return (
       <section className="container">
