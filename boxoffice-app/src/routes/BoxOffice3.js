@@ -4,18 +4,16 @@ import SearchMovie from "../components/SearchMovie";
 import "./Home.css";
 import "./Search.css";
 
-class BoxOffice extends React.Component {
+class BoxOffice3 extends React.Component {
   state = {
     isLoading: true,
     movies: [],
     top10: [],
-    arr: [],
   };
 
   getSearchMovie = async (title) => {
     const ID_KEY = "Yl6uwVUv0izsX17iuY45";
     const SECRET_KEY = "udIXNnhVFG";
-    let item = {};
     // const search = this.state.value;
     try {
       if (title === "") {
@@ -34,8 +32,7 @@ class BoxOffice extends React.Component {
           },
         });
         console.log(items[0]);
-        item = items[0];
-        return item;
+        this.state.top10.push(items[0]);
       }
     } catch (error) {
       console.log(error);
@@ -65,27 +62,16 @@ class BoxOffice extends React.Component {
   };
 
   componentDidMount() {
-    const arr = [];
-    const { isLoading, movies, top10 } = this.state;
-
     this.getBoxOffice();
-    console.log(movies);
-    for (var i = 0; i < movies.length; i++) {
-      arr.push(this.getSearchMovie(movies[i].movieNm));
-    }
-    this.setState({ top10: arr });
-    console.log(this.state.top10);
   }
 
   render() {
-    // let arr = [];
-
-    // this.state.arr = Promise.all(this.state.top10).then((data) => {
-    //   const response = data;
-    //   return response;
-    // });
     const { isLoading, movies, top10 } = this.state;
-
+    console.log(movies);
+    movies.map((movie) => {
+      this.getSearchMovie(movie.movieNm);
+    });
+    console.log(this.state.top10);
     return (
       <section className="container">
         {isLoading ? (
@@ -93,8 +79,8 @@ class BoxOffice extends React.Component {
             <span className="loader__text">Loading..</span>
           </div>
         ) : (
-          <div className="movies">
-            {this.state.top10.map((movie) => {
+          <div>
+            {top10.map((movie) => {
               if (movie.image) {
                 return (
                   <SearchMovie
@@ -117,4 +103,4 @@ class BoxOffice extends React.Component {
   }
 }
 
-export default BoxOffice;
+export default BoxOffice3;

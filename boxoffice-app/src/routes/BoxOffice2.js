@@ -4,7 +4,7 @@ import SearchMovie from "../components/SearchMovie";
 import "./Home.css";
 import "./Search.css";
 
-class BoxOffice extends React.Component {
+class BoxOffice2 extends React.Component {
   state = {
     isLoading: true,
     movies: [],
@@ -15,8 +15,6 @@ class BoxOffice extends React.Component {
   getSearchMovie = async (title) => {
     const ID_KEY = "Yl6uwVUv0izsX17iuY45";
     const SECRET_KEY = "udIXNnhVFG";
-    let item = {};
-    // const search = this.state.value;
     try {
       if (title === "") {
         this.setState({ top10: [], isLoading: false });
@@ -34,8 +32,7 @@ class BoxOffice extends React.Component {
           },
         });
         console.log(items[0]);
-        item = items[0];
-        return item;
+        return items[0];
       }
     } catch (error) {
       console.log(error);
@@ -71,6 +68,7 @@ class BoxOffice extends React.Component {
     this.getBoxOffice();
     console.log(movies);
     for (var i = 0; i < movies.length; i++) {
+      console.log(this.getSearchMovie(movies[i].movieNm));
       arr.push(this.getSearchMovie(movies[i].movieNm));
     }
     this.setState({ top10: arr });
@@ -78,12 +76,6 @@ class BoxOffice extends React.Component {
   }
 
   render() {
-    // let arr = [];
-
-    // this.state.arr = Promise.all(this.state.top10).then((data) => {
-    //   const response = data;
-    //   return response;
-    // });
     const { isLoading, movies, top10 } = this.state;
 
     return (
@@ -117,4 +109,4 @@ class BoxOffice extends React.Component {
   }
 }
 
-export default BoxOffice;
+export default BoxOffice2;
