@@ -4,7 +4,7 @@ import SearchMovie from "../components/SearchMovie";
 import "./Home.css";
 import "./Search.css";
 
-class BoxOffice5 extends React.Component {
+class BoxOffice3 extends React.Component {
   state = {
     isLoading: true,
     movies: [],
@@ -33,13 +33,8 @@ class BoxOffice5 extends React.Component {
           },
         });
         console.log(items[0].title);
-
-        // this.state.titles = [...this.state.titles, items[0].title];
-        // this.state = { ...this.state, titles: [...this.state.titles, items[0].title] };
-        this.setState({
-          ...this.state, titles: [...this.state.titles, items[0].title]
-        });
-        // this.state.titles.push({ title: items[0].title });
+        return items[0].title;
+        // this.state.titles.push(items[0].title);
       }
     } catch (error) {
       console.log(error);
@@ -56,6 +51,7 @@ class BoxOffice5 extends React.Component {
       return year + month + day;
     }
     var date = getToday();
+    // console.log(date);
     var urlStr =
       "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=3db39eb1eb85ed2bb889e787679d69c2&targetDt=" +
       date;
@@ -64,28 +60,22 @@ class BoxOffice5 extends React.Component {
         boxOfficeResult: { dailyBoxOfficeList },
       },
     } = await axios.get(urlStr);
+
+    return dailyBoxOfficeList
     this.setState({ movies: dailyBoxOfficeList, isLoading: false });
   };
-  // const { isLoading, movies, top10 } = this.state;
+
   componentDidMount() {
+    // this.setState(this.getDailyBoxOfficeList);
     this.getBoxOffice();
   }
-  // shouldComponentUpdate() {
-  // this.state.movies.map((movie) => {
-  //   this.getSearchMovie(movie.movieNm);
-  // });
-  // }
-  // constructor() {
-  //   super();
-  // }
 
   render() {
-    this.state.movies.map((movie) => {
-      this.getSearchMovie(movie.movieNm);
-    });
-    // console.log(movies);
-    console.log(this.state.movies);
     const { isLoading, movies, top10 } = this.state;
+    console.log(movies);
+    movies.map((movie) => {
+      this.state.titles.push(this.getSearchMovie(movie.movieNm));
+    });
     console.log(this.state.titles);
     return (
       <section className="container">
@@ -118,4 +108,4 @@ class BoxOffice5 extends React.Component {
   }
 }
 
-export default BoxOffice5;
+export default BoxOffice3;

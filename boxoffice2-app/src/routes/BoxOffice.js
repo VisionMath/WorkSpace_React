@@ -4,17 +4,18 @@ import SearchMovie from "../components/SearchMovie";
 import "./Home.css";
 import "./Search.css";
 
-class BoxOffice5 extends React.Component {
+class BoxOffice extends React.Component {
   state = {
     isLoading: true,
     movies: [],
     top10: [],
-    titles: []
+    arr: [],
   };
 
   getSearchMovie = async (title) => {
     const ID_KEY = "Yl6uwVUv0izsX17iuY45";
     const SECRET_KEY = "udIXNnhVFG";
+    let item = {};
     // const search = this.state.value;
     try {
       if (title === "") {
@@ -32,14 +33,9 @@ class BoxOffice5 extends React.Component {
             "X-Naver-Client-Secret": SECRET_KEY,
           },
         });
-        console.log(items[0].title);
-
-        // this.state.titles = [...this.state.titles, items[0].title];
-        // this.state = { ...this.state, titles: [...this.state.titles, items[0].title] };
-        this.setState({
-          ...this.state, titles: [...this.state.titles, items[0].title]
-        });
-        // this.state.titles.push({ title: items[0].title });
+        console.log(items[0]);
+        item = items[0];
+        return item;
       }
     } catch (error) {
       console.log(error);
@@ -56,6 +52,7 @@ class BoxOffice5 extends React.Component {
       return year + month + day;
     }
     var date = getToday();
+    // console.log(date);
     var urlStr =
       "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=3db39eb1eb85ed2bb889e787679d69c2&targetDt=" +
       date;
@@ -66,27 +63,29 @@ class BoxOffice5 extends React.Component {
     } = await axios.get(urlStr);
     this.setState({ movies: dailyBoxOfficeList, isLoading: false });
   };
-  // const { isLoading, movies, top10 } = this.state;
+
   componentDidMount() {
+    const arr = [];
+    const { isLoading, movies, top10 } = this.state;
+
     this.getBoxOffice();
+    console.log(movies);
+    for (var i = 0; i < movies.length; i++) {
+      arr.push(this.getSearchMovie(movies[i].movieNm));
+    }
+    this.setState({ top10: arr });
+    console.log(this.state.top10);
   }
-  // shouldComponentUpdate() {
-  // this.state.movies.map((movie) => {
-  //   this.getSearchMovie(movie.movieNm);
-  // });
-  // }
-  // constructor() {
-  //   super();
-  // }
 
   render() {
-    this.state.movies.map((movie) => {
-      this.getSearchMovie(movie.movieNm);
-    });
-    // console.log(movies);
-    console.log(this.state.movies);
+    // let arr = [];
+
+    // this.state.arr = Promise.all(this.state.top10).then((data) => {
+    //   const response = data;
+    //   return response;
+    // });
     const { isLoading, movies, top10 } = this.state;
-    console.log(this.state.titles);
+
     return (
       <section className="container">
         {isLoading ? (
@@ -94,8 +93,8 @@ class BoxOffice5 extends React.Component {
             <span className="loader__text">Loading..</span>
           </div>
         ) : (
-          <div>
-            {top10.map((movie) => {
+          <div className="movies">
+            {this.state.top10.Promise.PromiseResult.map((movie) => {
               if (movie.image) {
                 return (
                   <SearchMovie
@@ -118,4 +117,4 @@ class BoxOffice5 extends React.Component {
   }
 }
 
-export default BoxOffice5;
+export default BoxOffice;

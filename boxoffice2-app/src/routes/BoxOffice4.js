@@ -4,12 +4,11 @@ import SearchMovie from "../components/SearchMovie";
 import "./Home.css";
 import "./Search.css";
 
-class BoxOffice5 extends React.Component {
+class BoxOffice4 extends React.Component {
   state = {
     isLoading: true,
     movies: [],
     top10: [],
-    titles: []
   };
 
   getSearchMovie = async (title) => {
@@ -32,14 +31,8 @@ class BoxOffice5 extends React.Component {
             "X-Naver-Client-Secret": SECRET_KEY,
           },
         });
-        console.log(items[0].title);
-
-        // this.state.titles = [...this.state.titles, items[0].title];
-        // this.state = { ...this.state, titles: [...this.state.titles, items[0].title] };
-        this.setState({
-          ...this.state, titles: [...this.state.titles, items[0].title]
-        });
-        // this.state.titles.push({ title: items[0].title });
+        console.log(items[0]);
+        this.state.top10.push(items[0]);
       }
     } catch (error) {
       console.log(error);
@@ -56,6 +49,7 @@ class BoxOffice5 extends React.Component {
       return year + month + day;
     }
     var date = getToday();
+    // console.log(date);
     var urlStr =
       "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=3db39eb1eb85ed2bb889e787679d69c2&targetDt=" +
       date;
@@ -66,56 +60,53 @@ class BoxOffice5 extends React.Component {
     } = await axios.get(urlStr);
     this.setState({ movies: dailyBoxOfficeList, isLoading: false });
   };
-  // const { isLoading, movies, top10 } = this.state;
+
   componentDidMount() {
     this.getBoxOffice();
   }
-  // shouldComponentUpdate() {
-  // this.state.movies.map((movie) => {
-  //   this.getSearchMovie(movie.movieNm);
-  // });
-  // }
-  // constructor() {
-  //   super();
-  // }
 
   render() {
-    this.state.movies.map((movie) => {
-      this.getSearchMovie(movie.movieNm);
-    });
-    // console.log(movies);
-    console.log(this.state.movies);
     const { isLoading, movies, top10 } = this.state;
-    console.log(this.state.titles);
+    console.log(movies);
+    console.log(movies);
+    for (var i = 0; i < movies.length; i++) {
+      this.state.top10.push(this.getSearchMovie(movies[i].movieNm));
+    }
+
+    // Promise.all((this.state.top10).then {
+
+    // }
+    console.log(this.state.top10);
     return (
-      <section className="container">
-        {isLoading ? (
-          <div className="loader">
-            <span className="loader__text">Loading..</span>
-          </div>
-        ) : (
-          <div>
-            {top10.map((movie) => {
-              if (movie.image) {
-                return (
-                  <SearchMovie
-                    key={movie.link}
-                    id={movie.link}
-                    year={movie.pubDate}
-                    title={movie.title}
-                    poster={movie.image}
-                    rating={movie.userRating}
-                    director={movie.director}
-                    actor={movie.actor}
-                  />
-                );
-              }
-            })}
-          </div>
-        )}
-      </section>
+      <section className="container" >
+        {
+          isLoading ? (
+            <div className="loader" >
+              <span className="loader__text">Loading..</span>
+            </div>
+          ) : (
+            <div>
+              {top10.map((movie) => {
+                if (movie.image) {
+                  return (
+                    <SearchMovie
+                      key={movie.link}
+                      id={movie.link}
+                      year={movie.pubDate}
+                      title={movie.title}
+                      poster={movie.image}
+                      rating={movie.userRating}
+                      director={movie.director}
+                      actor={movie.actor}
+                    />
+                  );
+                }
+              })}
+            </div >
+          )}
+      </section >
     );
   }
 }
 
-export default BoxOffice5;
+export default BoxOffice4;
