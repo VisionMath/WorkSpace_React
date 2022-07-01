@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Search from "./routes/Search";
 import Login from "./routes/Login";
 import BoxOffice from "./routes/BoxOffice";
@@ -10,7 +10,7 @@ import BoxOffice5 from "./routes/BoxOffice5";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router basename={'/boxoffice'}>
       <Routes>
         <Route path="/" element={<Login></Login>} />
         <Route path="/boxoffice" element={<BoxOffice></BoxOffice>} />
@@ -20,7 +20,7 @@ function App() {
         <Route path="/boxoffice5" element={<BoxOffice5></BoxOffice5>} />
         <Route path="/search" element={<Search></Search>} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

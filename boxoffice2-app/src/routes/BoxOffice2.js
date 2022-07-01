@@ -27,7 +27,7 @@ class BoxOffice2 extends Component {
       if (title === "") {
         this.setState({ top10: [], isLoading: false });
       } else {
-        await axios.get("/v1/search/movie.json", {
+        await axios.get("https://openapi.naver.com/v1/search/movie.json", {
           params: {
             query: title,
             display: 1,
@@ -47,15 +47,30 @@ class BoxOffice2 extends Component {
   };
 
   getBoxOffice = async () => {
-    function getToday() {
+    function getYesterday() {
       var date = new Date();
       var year = date.getFullYear();
-      var month = ("0" + (1 + date.getMonth())).slice(-2);
-      var day = ("0" + date.getDate()).slice(-2) - 1;
+      var month = 1 + date.getMonth();
+      var day = date.getDate();
+      if (day != 1) {
+        day -= 1;
+      } else if (month == 1) {
+        year -= 1;
+        month = 12;
+        day = 31;
+      } else {
+        month -= 1;
+        day = (month == 2) ? 28 : (month == 4 || month == 6 || month == 9 || month == 11) ? 30 : 31;
+      }
+      month = ("0" + month).slice(-2);
+      day = ("0" + day).slice(-2);
 
-      return year + month + day;
+      var yesterday = year + month + day;
+      console.log(yesterday);
+      return yesterday;
     }
-    var date = getToday();
+    var date = getYesterday();
+    console.log('date: ', date);
     var urlStr =
       "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=3db39eb1eb85ed2bb889e787679d69c2&targetDt=" +
       date;
@@ -75,9 +90,8 @@ class BoxOffice2 extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.navigate("/search");
-    // const value = this.state.value;
-    // if (value != "") this.props.Navigate
+    const value = this.state.value;
+    this.props.navigate("/search", { state: { value: value } });
   };
 
   render() {
@@ -100,16 +114,17 @@ class BoxOffice2 extends Component {
             </div>
             <div className="movies">
               {this.state.top10.map((movie) =>
-              (<SearchMovie
-                key={movie.link}
-                id={movie.link}
-                year={movie.pubDate}
-                title={movie.title.substr(3, movie.title.length - 7)}
-                poster={movie.image}
-                rating={movie.userRating}
-                director={movie.director}
-                actor={movie.actor}
-              />)
+              (
+                <SearchMovie
+                  key={movie.link}
+                  id={movie.link}
+                  year={movie.pubDate}
+                  title={movie.title.substr(3, movie.title.length - 7)}
+                  poster={movie.image}
+                  rating={movie.userRating}
+                  director={movie.director}
+                  actor={movie.actor}
+                />)
               )}
             </div>
           </div>
@@ -119,4 +134,4 @@ class BoxOffice2 extends Component {
   }
 }
 
-export default BoxOffice2;
+export default withRouter(BoxOffice2);

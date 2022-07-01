@@ -46,15 +46,14 @@ class BoxOffice3 extends React.Component {
       var date = new Date();
       var year = date.getFullYear();
       var month = ("0" + (1 + date.getMonth())).slice(-2);
-      var day = ("0" + date.getDate()).slice(-2) - 1;
+      var day = ("0" + date.getDate() - 1).slice(-2) - 1;
 
       return year + month + day;
     }
     var date = getToday();
     // console.log(date);
     var urlStr =
-      "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=3db39eb1eb85ed2bb889e787679d69c2&targetDt=" +
-      date;
+      "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=3db39eb1eb85ed2bb889e787679d69c2&targetDt=" + date;
     const {
       data: {
         boxOfficeResult: { dailyBoxOfficeList },
@@ -82,21 +81,22 @@ class BoxOffice3 extends React.Component {
           </div>
         ) : (
           <div>
-            {top10.map((movie) => {
-              if (movie.image) {
-                return (
-                  <SearchMovie
-                    key={movie.link}
-                    id={movie.link}
-                    year={movie.pubDate}
-                    title={movie.title}
-                    poster={movie.image}
-                    rating={movie.userRating}
-                    director={movie.director}
-                    actor={movie.actor}
-                  />
-                );
-              }
+            {movies.map((movie) => {
+
+              return (
+                <h1>{movie.movieNm}</h1>
+                // <SearchMovie
+                //   key={movie.link}
+                //   id={movie.link}
+                //   year={movie.pubDate}
+                //   title={movie.title}
+                //   poster={movie.image}
+                //   rating={movie.userRating}
+                //   director={movie.director}
+                //   actor={movie.actor}
+                // />
+              );
+
             })}
           </div>
         )}

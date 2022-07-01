@@ -54,8 +54,7 @@ class BoxOffice extends React.Component {
     var date = getToday();
     // console.log(date);
     var urlStr =
-      "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=3db39eb1eb85ed2bb889e787679d69c2&targetDt=" +
-      date;
+      "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=3db39eb1eb85ed2bb889e787679d69c2&targetDt=20220630";
     const {
       data: {
         boxOfficeResult: { dailyBoxOfficeList },
